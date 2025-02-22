@@ -94,7 +94,7 @@ const Navbar = () => {
 
 const AdminDashboard = () => {
   const role = useSelector((state) => state.auth.userData.role);
-  console.log(role);
+  // console.log(role);
 
   return (
     <div className="flex h-screen bg-gray-50">

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 const CreateProject = ({ isOpen, onClose }) => {
   const token = localStorage.getItem("token");
-  const [managers, setManagers] = useState("");
+  const [managers, setManagers] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -50,12 +50,12 @@ const CreateProject = ({ isOpen, onClose }) => {
     } catch (err) {
       console.log(err);
     }
-    setFormData = {
+    setFormData({
       name: "",
       description: "",
       projectmanager: "",
       deadline: "",
-    };
+    });
     onClose();
   };
 

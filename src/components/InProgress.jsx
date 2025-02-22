@@ -1,8 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { removeTask, setTask } from "../utility/taskSlice";
+import { setTrashTask } from "../utility/trashSlice";
+import Navbar from "./Navbar";
 
 const InProgress = () => {
-  const [tasks, setTasks] = useState();
+  const token = localStorage.getItem("token");
+  // console.log(token)
+  const dispatch = useDispatch();
+  const tasks = useSelector((state) => state.task.taskData)
   const [view, setView] = useState("list"); // "list" or "board"
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [hoveredUser, setHoveredUser] = useState(null);
@@ -18,13 +25,23 @@ const InProgress = () => {
             },
           }
         );
-        setTasks(res.data);
+        dispatch(setTask(res.data));
       } catch (err) {
         console.log(err);
       }
     };
     fetchInProgress();
   }, []);
+  const moveToTrash = async (id) => {
+    axios.put(`http://localhost:5000/api/task/task/trash/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const deletedTask = tasks.find((task) => task.id === id);
+    dispatch(removeTask(id)); // Remove from active tasks
+    dispatch(setTrashTask(deletedTask)); // Move to trash
+  };
 
   const getInitials = (name) => {
     return name
@@ -36,39 +53,10 @@ const InProgress = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen p-6">
+    <div className="bg-gray-100 min-h-screen p-6 pt-0">
       {/* Navbar */}
-      <div className="w-full p-4 bg-white shadow-md flex justify-between items-center rounded-lg">
-        <h1 className="text-lg font-bold">Project Manager Dashboard</h1>
-        <div className="flex items-center space-x-4">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="border rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          {/* Profile Section */}
-          <div className="relative">
-            <div
-              className="h-10 w-10 flex items-center justify-center bg-blue-500 text-white rounded-full font-bold cursor-pointer select-none"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            >
-              CA
-            </div>
-            {isDropdownOpen && (
-              <div className="absolute right-0 mt-4 w-40 bg-white border shadow-lg rounded-lg z-50">
-                <ul className="text-gray-800">
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-lg">
-                    Profile
-                  </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-lg">
-                    Logout
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      <Navbar/>
+
 
       {/* View Toggle Buttons */}
       <div className="flex justify-between mt-6">
@@ -126,7 +114,7 @@ const InProgress = () => {
                     {new Date(task.createdAt).toLocaleDateString()}
                   </td>
                   <td className="p-2">{task.description}</td>
-                  <td className="p-2 text-red-500">Delete</td>
+                  <td className="p-2 text-red-500 cursor-pointer" onClick={() => moveToTrash(task._id)}>Delete</td>
                   {/* <td className="p-2">{task.status}</td> */}
                 </tr>
               ))}

@@ -36,7 +36,7 @@ const Trash = () => {
       <h2 className="text-2xl font-bold">Trash</h2>
       {trashTasks.map((task) => (
         <div key={task._id} className="flex justify-between bg-gray-200 p-4 shadow-md rounded-md my-2">
-          <span>{task.name}</span>
+          <span>{task?.name}</span>
           <div>
             <button onClick={() => restoreTaskHandler(task._id)} className="text-blue-500 hover:underline mr-3">
               Restore
