@@ -53,14 +53,14 @@ const Todo = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen p-6 pt-0">
+    <div className="bg-white min-h-screen pt-0">
       {/* Navbar */}
       <Navbar/>
 
 
       {/* View Toggle Buttons */}
-      <div className="flex justify-between mt-6">
-        <h2 className="text-xl font-bold">Tasks</h2>
+      <div className="flex shadow-lg justify-between mt-6 p-6">
+        <h2 className="text-xl font-bold">Todos</h2>
         <div className="flex space-x-4">
           <button
             className={`px-4 py-2 rounded-md ${

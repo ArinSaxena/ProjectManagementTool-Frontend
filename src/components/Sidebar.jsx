@@ -33,7 +33,7 @@ const Sidebar = ({ role }) => {
 
   return (
     <div>
-      <div className="w-64 h-screen bg-gray-100 p-5 shadow-lg">
+      <div className="w-64 h-screen bg-gray-100 p-5 shadow-lg sticky">
         <h2 className="text-xl font-bold mb-6">
           {role?.charAt(0).toUpperCase() + role?.slice(1)} Dashboard
         </h2>

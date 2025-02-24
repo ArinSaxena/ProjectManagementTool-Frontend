@@ -10,7 +10,7 @@ const CompletedTasks = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.task.taskData);
 
-  const User = useSelector((state) => state.auth.userData);
+  // const User = useSelector((state) => state.auth.userData);
   const [view, setView] = useState("list"); // "list" or "board"
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [hoveredUser, setHoveredUser] = useState(null);
@@ -53,16 +53,12 @@ const CompletedTasks = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen p-6 pt-0">
+    <div className="bg-white h-screen pt-0 ">
       {/* Navbar */}
-      {/* <div className="w-full p-4 bg-white shadow-md flex justify-between items-center rounded-lg"> */}
       <Navbar/>
-
-      {/* </div> */}
-
       {/* View Toggle Buttons */}
-      <div className="flex justify-between mt-6">
-        <h2 className="text-xl font-bold">Tasks</h2>
+      <div className="flex  shadow-lg justify-between mt-6 p-6">
+        <h2 className="text-xl font-bold">Completed</h2>
         <div className="flex space-x-4">
           <button
             className={`px-4 py-2 rounded-md ${

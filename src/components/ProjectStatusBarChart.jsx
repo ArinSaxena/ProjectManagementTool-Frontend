@@ -10,6 +10,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setProject } from "../utility/projectSlice";
 
 ChartJS.register(
   CategoryScale,
@@ -21,7 +23,9 @@ ChartJS.register(
 );
 
 const ProjectStatusBarChart = () => {
-  const [projects, setProjects] = useState(() => []);
+  const dispatch = useDispatch();
+  const projects = useSelector((state) => state.project.projectData);
+  console.log(projects);
 
   // Fetch tasks from backend
   const fetchProjects = async () => {
@@ -33,16 +37,10 @@ const ProjectStatusBarChart = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setProjects(res.data)
-    //   if (Array.isArray(res.data)) {
-    //     setProjects(res.data);
-    //   } else {
-    //     setProjects([]); // Set an empty array if invalid response
-    //     console.error("Unexpected API response:", res.data);
-    //   }
+      dispatch(setProject(res.data));
+   
     } catch (error) {
       console.error("Error fetching tasks:", error);
-      setProjects([]); // Fallback to empty array
 
     }
   };
@@ -82,17 +80,6 @@ const ProjectStatusBarChart = () => {
       statusCounts[normalizedStatus]++;
     }
   });
-// if (!Array.isArray(projects)) {
-//     console.error("Projects is not an array:", projects);
-//     return null; // Prevent further execution if projects is not an array
-//   }
-  
-//   projects.forEach((project) => {
-//     const normalizedStatus = normalizeStatus(project.status);
-//     if (statusCounts[normalizedStatus] !== undefined) {
-//       statusCounts[normalizedStatus]++;
-//     }
-//   });
   
 
   const data = {
