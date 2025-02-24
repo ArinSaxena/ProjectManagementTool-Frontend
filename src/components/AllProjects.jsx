@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Trash2 } from "lucide-react"; // Import delete icon
+import AdminNavbar from "./AdminNavbar";
 
 const AllProjects = () => {
   const [projects, setProjects] = useState([]);
@@ -29,7 +30,9 @@ const AllProjects = () => {
     fetchProjects();
   }, []);
 
-  return (
+  return ( 
+  <div className="min-h-screen bg-gradient-to-br  p-6">
+      <AdminNavbar/>
     <div className="max-w-4xl mx-auto mt-6 p-4 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-semibold text-center mb-4">Project List</h2>
       {loading ? (
@@ -64,6 +67,8 @@ const AllProjects = () => {
         </ul>
       )}
     </div>
+    </div>
+
   );
 };
 

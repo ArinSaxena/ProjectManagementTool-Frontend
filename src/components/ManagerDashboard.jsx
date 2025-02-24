@@ -140,7 +140,7 @@ const ManagerDashboard = () => {
   const todos = 2;
 
   return (
-    <div className="flex h-screen bg-gray-100 p-6 pt-0">
+    <div className="flex h-screen bg-gray-100 pt-0">
       <div className="flex-1">
         <Navbar/>
         <div className="p-6">

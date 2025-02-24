@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import Navbar from "./AdminNavbar"
+import Navbar from "./Navbar"
 import ProjectStatusBarChart from "./ProjectStatusBarChart";
 const AdminDashboard = () => {
   const role = useSelector((state) => state.auth.userData.role);

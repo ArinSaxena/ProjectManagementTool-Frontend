@@ -88,6 +88,7 @@
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import AdminNavbar from "./AdminNavbar";
 
 const AllUsers = () => {
   const token = localStorage.getItem("token");
@@ -141,6 +142,8 @@ const AllUsers = () => {
   };
 
   return (
+    <div className="min-h-screen bg-gradient-to-br  p-6">
+      <AdminNavbar/>
     <div className="max-w-5xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">All Users</h2>
 
@@ -220,6 +223,7 @@ const AllUsers = () => {
       ) : (
         <p className="text-center text-gray-600">No users found</p>
       )}
+    </div>
     </div>
   );
 };

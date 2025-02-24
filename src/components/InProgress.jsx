@@ -6,7 +6,7 @@ import { setTrashTask } from "../utility/trashSlice";
 import Navbar from "./Navbar";
 
 const InProgress = () => {
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   // console.log(token)
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.task.taskData)
@@ -33,6 +33,8 @@ const InProgress = () => {
     fetchInProgress();
   }, []);
   const moveToTrash = async (id) => {
+    const token = localStorage.getItem("token");
+  console.log(token)
     axios.put(`http://localhost:5000/api/task/task/trash/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,

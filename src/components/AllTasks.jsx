@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Navbar from "./AdminNavbar"
 
 const AllTasks = () => {
   const [tasks, setTasks] = useState([]);
@@ -41,6 +42,7 @@ const AllTasks = () => {
   };
   return (
     <div className="min-h-screen bg-gradient-to-br  p-6">
+      <Navbar/>
       <div className="max-w-4xl mx-auto mt-6 p-6 bg-white shadow-lg rounded-lg">
         <h2 className="text-3xl font-bold text-center mb-6 text-blue-800">
           Task List
