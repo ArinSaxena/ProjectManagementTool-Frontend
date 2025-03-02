@@ -6,41 +6,45 @@ import { removeTask, setTask } from "../utility/taskSlice";
 import Navbar from "./Navbar";
 const CompletedTasks = () => {
   const token = localStorage.getItem("token");
-  // console.log(token);
   const dispatch = useDispatch();
-  const tasks = useSelector((state) => state.task.taskData);
 
-  // const User = useSelector((state) => state.auth.userData);
+  const [tasks, setTasks] = useState([]);
   const [view, setView] = useState("list"); // "list" or "board"
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [hoveredUser, setHoveredUser] = useState(null);
 
+  const fetchCompletedTasks = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/api/task/manager?status=completed",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setTasks(res.data);
+    } catch (err) {
+      console.error("Error fetching tasks:", err);
+    }
+  };
   useEffect(() => {
-    const fetchCompletedTasks = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/task/task?status=completed",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        dispatch(setTask(res.data));
-      } catch (err) {
-        console.error("Error fetching tasks:", err);
-      }
-    };
     fetchCompletedTasks();
   }, []);
 
   const moveToTrash = async (id) => {
-    axios.put(`http://localhost:5000/api/task/task/trash/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const deletedTask = tasks.find((task) => task.id === id);
-    dispatch(removeTask(id)); // Remove from active tasks
-    dispatch(setTrashTask(deletedTask)); // Move to trash
+    try {
+      await axios.put(
+        `http://localhost:5000/api/task/trash/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchCompletedTasks();
+    } catch (err) {
+      console.log("Error moving to trash", err);
+    }
   };
 
   const getInitials = (name) => {
@@ -55,7 +59,7 @@ const CompletedTasks = () => {
   return (
     <div className="bg-white h-screen pt-0 ">
       {/* Navbar */}
-      <Navbar/>
+      <Navbar />
       {/* View Toggle Buttons */}
       <div className="flex  shadow-lg justify-between mt-6 p-6">
         <h2 className="text-xl font-bold">Completed</h2>

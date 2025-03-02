@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const CreateTask = ({ isOpen, isClose }) => {
+const CreateTask = ({ isOpen, onClose }) => {
   const [users, setUsers] = useState();
   const [formData, setFormData] = useState({
     // cosnt user
@@ -54,7 +54,7 @@ const CreateTask = ({ isOpen, isClose }) => {
     } catch (err) {
       console.log(err);
     }
-    isClose();
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -128,7 +128,7 @@ const CreateTask = ({ isOpen, isClose }) => {
             <button
               type="button"
               className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-all"
-              onClick={isClose}
+              onClick={onClose}
             >
               Cancel
             </button>

@@ -6,41 +6,45 @@ import Navbar from "./Navbar";
 
 const Todo = () => {
   const token = localStorage.getItem("token");
-  const tasks = useSelector((state) => state.task.taskData);
-  const dispatch = useDispatch();
-  const User = useSelector((state) => state.auth.userData);
-  // const [tasks, setTasks] = useState();
+
+  const [tasks, setTasks] = useState();
   const [view, setView] = useState("list"); // "list" or "board"
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [hoveredUser, setHoveredUser] = useState(null);
 
+  const fetchTodo = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/task/manager?status=todo`,
+        {
+          headers: {
+            Authorization: ` Bearer ${token}`,
+          },
+        }
+      );
+      setTasks(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
-    const fetchTodo = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/api/task/task?status=todo`,
-          {
-            headers: {
-              Authorization: ` Bearer ${token}`,
-            },
-          }
-        );
-        dispatch(setTask(res.data));
-      } catch (err) {
-        console.log(err);
-      }
-    };
     fetchTodo();
   }, []);
   const moveToTrash = async (id) => {
-    axios.put(`http://localhost:5000/api/task/task/trash/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const deletedTask = tasks.find((task) => task.id === id);
-    dispatch(removeTask(id)); // Remove from active tasks
-    dispatch(setTrashTask(deletedTask)); // Move to trash
+    try {
+      axios.put(
+        `http://localhost:5000/api/task/trash/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchTodo();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const getInitials = (name) => {
@@ -55,8 +59,7 @@ const Todo = () => {
   return (
     <div className="bg-white min-h-screen pt-0">
       {/* Navbar */}
-      <Navbar/>
-
+      <Navbar />
 
       {/* View Toggle Buttons */}
       <div className="flex shadow-lg justify-between mt-6 p-6">
@@ -114,7 +117,12 @@ const Todo = () => {
                     {new Date(task.createdAt).toLocaleDateString()}
                   </td>
                   <td className="p-2">{task.description}</td>
-                  <td className="p-2 text-red-500 cursor-pointer" onClick={() => moveToTrash(task._id)}>Delete</td>
+                  <td
+                    className="p-2 text-red-500 cursor-pointer"
+                    onClick={() => moveToTrash(task._id)}
+                  >
+                    Delete
+                  </td>
                   {/* <td className="p-2">{task.status}</td> */}
                 </tr>
               ))}

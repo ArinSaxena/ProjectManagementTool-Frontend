@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -106,6 +106,17 @@ const AuthForm = ({ type }) => {
       setLoading(false);
     }
   };
+  // useEffect(() => {
+  //   setFormData({
+  //     name: "",
+  //       email: "",
+  //       tile: "",
+  //       password: "",
+  //       role: "",
+  //   });
+
+    // document.title = `Study Sync - ${type}`;
+  // }, [type]);
 
   return (
     <div className="flex min-h-screen">

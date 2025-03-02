@@ -6,43 +6,47 @@ import { setTrashTask } from "../utility/trashSlice";
 import Navbar from "./Navbar";
 
 const InProgress = () => {
-  // const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
   // console.log(token)
   const dispatch = useDispatch();
-  const tasks = useSelector((state) => state.task.taskData)
+  const tasks = useSelector((state) => state.task.taskData);
   const [view, setView] = useState("list"); // "list" or "board"
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [hoveredUser, setHoveredUser] = useState(null);
+
+  const fetchInProgress = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/task/manager?status=inProgress`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(setTask(res.data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const fetchInProgress = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/api/task/task?status=inProgress`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        dispatch(setTask(res.data));
-      } catch (err) {
-        console.log(err);
-      }
-    };
     fetchInProgress();
   }, []);
   const moveToTrash = async (id) => {
-    const token = localStorage.getItem("token");
-  console.log(token)
-    axios.put(`http://localhost:5000/api/task/task/trash/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const deletedTask = tasks.find((task) => task.id === id);
-    dispatch(removeTask(id)); // Remove from active tasks
-    dispatch(setTrashTask(deletedTask)); // Move to trash
+    try {
+      await axios.put(
+        `http://localhost:5000/api/task/trash/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchInProgress();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const getInitials = (name) => {
@@ -57,8 +61,7 @@ const InProgress = () => {
   return (
     <div className="bg-white min-h-screen pt-0">
       {/* Navbar */}
-      <Navbar/>
-
+      <Navbar />
 
       {/* View Toggle Buttons */}
       <div className="flex shadow-lg justify-between mt-6 p-6">
@@ -116,7 +119,12 @@ const InProgress = () => {
                     {new Date(task.createdAt).toLocaleDateString()}
                   </td>
                   <td className="p-2">{task.description}</td>
-                  <td className="p-2 text-red-500 cursor-pointer" onClick={() => moveToTrash(task._id)}>Delete</td>
+                  <td
+                    className="p-2 text-red-500 cursor-pointer"
+                    onClick={() => moveToTrash(task._id)}
+                  >
+                    Delete
+                  </td>
                   {/* <td className="p-2">{task.status}</td> */}
                 </tr>
               ))}
