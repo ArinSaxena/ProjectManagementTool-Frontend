@@ -18,12 +18,11 @@ const CreateProject = ({ isOpen, onClose }) => {
   useEffect(() => {
     const fetchManager = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/user/managers", {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/managers`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(res.data);
         setManagers(res.data);
       } catch (err) {
         console.log(err);
@@ -34,10 +33,9 @@ const CreateProject = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
     try {
      await axios.post(
-        "http://localhost:5000/api/project/createProject",
+        `${import.meta.env.VITE_BACKEND_URL}/project/createProject`,
          formData ,
         {
           headers: {
@@ -46,7 +44,6 @@ const CreateProject = ({ isOpen, onClose }) => {
         }
       );
 
-      console.log(response.data);
     } catch (err) {
       console.log(err);
     }

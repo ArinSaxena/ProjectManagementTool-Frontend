@@ -9,11 +9,10 @@ const AllUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/user/all-users", {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/all-users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(res.data);
-      console.log(res.data);
     } catch (err) {
       console.error("Error fetching users:", err);
     }
@@ -25,7 +24,7 @@ const AllUsers = () => {
   const moveToTrash = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/user/trash/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/user/trash/${id}`,
         {},
         {
           headers: {

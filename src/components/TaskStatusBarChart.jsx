@@ -15,10 +15,9 @@ const TaskStatusBarChart = () => {
   // Fetch tasks from backend
   const fetchTasks = async () => {
     try {
-      console.log("Chl rahi h api")
 
       const token = localStorage.getItem("token"); // Get token if auth is required
-      const res = await axios.get("http://localhost:5000/api/task/manager", {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/task/manager`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       dispatch(setTask(res.data)); // Update state with fetched tasks

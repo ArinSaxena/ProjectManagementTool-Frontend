@@ -5,15 +5,17 @@ import Navbar from "./Navbar";
 const Teams = () => {
   const [users, setUsers] = useState([]);
 
-
   const fetchUsers = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get("http://localhost:5000/api/user/all-users", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/user/all-users`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setUsers(res.data);
     } catch (err) {
       console.log(err);
@@ -26,7 +28,7 @@ const Teams = () => {
   const moveToTrash = async (id) => {
     try {
       await axios.patch(
-        `http://localhost:5000/api/task/trash/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/task/trash/${id}`,
         {},
         {
           headers: {
@@ -51,10 +53,9 @@ const Teams = () => {
 
   return (
     <div className="">
-        <Navbar/>
+      <Navbar />
       <div className="flex justify-between items-center mt-9 pl-2">
         <h2 className="text-xl font-bold">Team Members</h2>
-       
       </div>
 
       {/* User Table */}
@@ -82,8 +83,15 @@ const Teams = () => {
                 <td className="p-3">{user.email}</td>
                 <td className="p-3">{user.role}</td>
                 <td className="p-3 space-x-3">
-                  <button className="text-blue-500 hover:underline">Edit</button>
-                  <button className="text-red-500 hover:underline" onClick={() => moveToTrash(user._id)}>Delete</button>
+                  <button className="text-blue-500 hover:underline">
+                    Edit
+                  </button>
+                  <button
+                    className="text-red-500 hover:underline"
+                    onClick={() => moveToTrash(user._id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

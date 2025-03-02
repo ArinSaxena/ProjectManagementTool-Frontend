@@ -11,7 +11,7 @@ const AllProjects = () => {
   const fetchProjects = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/project/all-projects",
+        `${import.meta.env.VITE_BACKEND_URL}/project/all-projects`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -27,9 +27,8 @@ const AllProjects = () => {
 
   const moveToTrash = async (id) => {
     try {
-      console.log("asdfasdfsf")
        await axios.put(
-        `http://localhost:5000/api/project/trash/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/project/trash/${id}`,
         {},
         {
           headers: {
@@ -37,7 +36,6 @@ const AllProjects = () => {
           },
         }
       );
-      console.log("fsf")
 
       fetchProjects();
     } catch (err) {

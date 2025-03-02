@@ -5,7 +5,6 @@ import { Trophy } from "lucide-react";
 const DragandDrop = ({ tasks }) => {
   // Convert tasks array into an object grouped by status
   const token = localStorage.getItem("token");
-  console.log(tasks);
 
   const groupTasksByStatus = (tasksArray) => {
     // console.log(tasksArray);
@@ -26,7 +25,6 @@ const DragandDrop = ({ tasks }) => {
 
   // State to manage tasks and modal
   const [data, setData] = useState(groupTasksByStatus(tasks));
-  console.log(data);
   const [selectedTask, setSelectedTask] = useState(null); // Store selected task
 
   useEffect(() => {
@@ -34,7 +32,7 @@ const DragandDrop = ({ tasks }) => {
   }, [tasks]);
 
   useEffect(() => {
-    console.log("Updated Data:", data); // ✅ Logs AFTER state updates
+    // ✅ Logs AFTER state updates
   }, [data]);
   const dragItem = useRef();
   const dragContainer = useRef();
@@ -55,12 +53,11 @@ const DragandDrop = ({ tasks }) => {
 
   const handleDrop = async (e, targetContainer) => {
     const item = dragItem.current;
-    console.log(item._id);
     const sourceContainer = dragContainer.current;
 
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/task/status/${item._id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/task/status/${item._id}`,
         {
           status: targetContainer,
         },
@@ -81,16 +78,13 @@ const DragandDrop = ({ tasks }) => {
       );
       newData[targetContainer] = [...newData[targetContainer], item];
       // console.log(targetContainer);
-      console.log(newData);
       return newData;
     });
   };
-  // console.log(data);
   return (
     <div className="flex flex-col">
-      {/* {console.log("Rendering with data:", data)} */}
 
-      <div className="flex justify-between min-h-screen bg-gradient-to-r from-blue-50 to-purple-50 p-6">
+      <div className="flex justify-between bg-gradient-to-r from-blue-50 to-purple-50 p-6">
         {Object.keys(data).map((container, index) => (
           <div
             key={index}
@@ -135,57 +129,10 @@ const DragandDrop = ({ tasks }) => {
   );
 };
 
-// const Modal = ({ task, onClose }) => {
-//   const modalRef = useRef();
-//   useClickOutSide(modalRef, onClose);
-
-//   return (
-//     <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-[1px] p-4">
-//       <div
-//         ref={modalRef}
-//         className="bg-white p-8 rounded-xl shadow-2xl w-[450px] border-t-4 border-blue-500 transform transition-all duration-300 scale-105"
-//       >
-//         <h2 className="text-3xl font-bold text-blue-600 mb-5 text-center tracking-wide">
-//           {task.name}
-//         </h2>
-
-//         <div className="space-y-4 text-gray-700">
-//           <p className="bg-gray-100 p-3 rounded-lg shadow-sm">
-//             <strong className="text-gray-900">Description:</strong>{" "}
-//             {task.description || "No description provided"}
-//           </p>
-//           <p className="bg-gray-100 p-3 rounded-lg shadow-sm">
-//             <strong className="text-gray-900">Due Date:</strong>{" "}
-//             {task.dueDate
-//               ? new Date(task.dueDate).toLocaleDateString()
-//               : "No due date set"}
-//           </p>
-//           <p className="bg-gray-100 p-3 rounded-lg shadow-sm">
-//             <strong className="text-gray-900">Assigned On:</strong>{" "}
-//             {task.createdAt
-//               ? new Date(task.createdAt).toLocaleDateString()
-//               : "N/A"}
-//           </p>
-//         </div>
-
-//         <div className="mt-6 flex justify-end">
-//           <button
-//             onClick={onClose}
-//             className="bg-gradient-to-r from-red-500 to-red-600 text-white px-5 py-2 rounded-lg shadow-md hover:scale-105 hover:shadow-xl transition-all duration-300"
-//           >
-//             Close
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
 const Modal = ({ task, onClose }) => {
   const modalRef = useRef();
   useClickOutSide(modalRef, onClose);
 
-  // Function to get the badge color based on task status
   const getStatusColor = (status) => {
     switch (status) {
       case "completed":
@@ -209,22 +156,32 @@ const Modal = ({ task, onClose }) => {
           {task.name}
         </h2>
 
-        {/* Status Badge */}
         <div className="flex justify-center mb-4">
-          <span className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusColor(task.status)}`}>
+          <span
+            className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusColor(
+              task.status
+            )}`}
+          >
             {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
           </span>
         </div>
 
         <div className="space-y-4 text-gray-700">
           <p className="bg-gray-100 p-3 rounded-lg shadow-sm">
-            <strong className="text-gray-900">Description:</strong> {task.description || "No description provided"}
+            <strong className="text-gray-900">Description:</strong>{" "}
+            {task.description || "No description provided"}
           </p>
           <p className="bg-gray-100 p-3 rounded-lg shadow-sm">
-            <strong className="text-gray-900">Due Date:</strong> {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : "No due date set"}
+            <strong className="text-gray-900">Due Date:</strong>{" "}
+            {task.dueDate
+              ? new Date(task.dueDate).toLocaleDateString()
+              : "No due date set"}
           </p>
           <p className="bg-gray-100 p-3 rounded-lg shadow-sm">
-            <strong className="text-gray-900">Assigned On:</strong> {task.createdAt ? new Date(task.createdAt).toLocaleDateString() : "N/A"}
+            <strong className="text-gray-900">Assigned On:</strong>{" "}
+            {task.createdAt
+              ? new Date(task.createdAt).toLocaleDateString()
+              : "N/A"}
           </p>
         </div>
 
@@ -240,6 +197,5 @@ const Modal = ({ task, onClose }) => {
     </div>
   );
 };
-
 
 export default DragandDrop;

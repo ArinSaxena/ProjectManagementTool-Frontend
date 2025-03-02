@@ -18,12 +18,12 @@ const Trash = () => {
       const token = localStorage.getItem("token");
       const endpoints =
         userData.role === "projectmanager"
-          ? ["/api/task/trash", "/api/user/trash"]
-          : ["/api/project/trash", "/api/task/trash", "/api/user/trash"];
+          ? ["/task/trash", "/user/trash"]
+          : ["/project/trash", "/task/trash", "/user/trash"];
 
       const responses = await Promise.all(
         endpoints.map((url) =>
-          axios.get(`http://localhost:5000${url}`, {
+          axios.get(`${import.meta.env.VITE_BACKEND_URL}${url}`, {
             headers: { Authorization: `Bearer ${token}` },
           })
         )
@@ -47,7 +47,7 @@ const Trash = () => {
 
   const restoreItemHandler = async (id, type) => {
     const token = localStorage.getItem("token");
-    const endpoint = `http://localhost:5000/api/${type}/restore/${id}`;
+    const endpoint = `${import.meta.env.VITE_BACKEND_URL}/${type}/restore/${id}`;
     try {
       await axios.put(
         endpoint,
@@ -64,7 +64,7 @@ const Trash = () => {
 
   const deletePermanently = async (id, type) => {
     const token = localStorage.getItem("token");
-    const endpoint = `http://localhost:5000/api/${type}/delete/${id}`;
+    const endpoint =`${import.meta.env.VITE_BACKEND_URL}/${type}/delete/${id}`;
     try {
       await axios.delete(endpoint, {
         headers: { Authorization: `Bearer ${token}` },

@@ -1,18 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import DragandDrop from "./DragandDrop";
+import DragandDrop from "./DragAndDrop";
 import Navbar from "./Navbar";
 import Profile from "./Profile";
 
 const UserDashboard = () => {
   const token = localStorage.getItem("token");
-  const [isProfileOpen, setIsProfileOpen] = useState(false); 
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [tasks, setTasks] = useState([]);
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/task/user`,
+          `${import.meta.env.VITE_BACKEND_URL}/task/user`,
           {
             headers: { Authorization: ` Bearer ${token}` },
           }
@@ -25,7 +25,6 @@ const UserDashboard = () => {
     };
     fetchTasks();
   }, []);
-
 
   return (
     <div className="flex flex-col h-screen w-full">

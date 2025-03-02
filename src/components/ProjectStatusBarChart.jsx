@@ -25,14 +25,14 @@ ChartJS.register(
 const ProjectStatusBarChart = () => {
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.project.projectData);
-  console.log(projects);
+
 
   // Fetch tasks from backend
   const fetchProjects = async () => {
     try {
       const token = localStorage.getItem("token"); // Get token if auth is required
       const res = await axios.get(
-        "http://localhost:5000/api/project/update-project-status",
+       `${import.meta.env.VITE_BACKEND_URL}/project/update-project-status`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

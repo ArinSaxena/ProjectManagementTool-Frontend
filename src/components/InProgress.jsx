@@ -17,7 +17,7 @@ const InProgress = () => {
   const fetchInProgress = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/task/manager?status=inProgress`,
+       `${import.meta.env.VITE_BACKEND_URL}/task/manager?status=inProgress`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -35,7 +35,7 @@ const InProgress = () => {
   const moveToTrash = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/task/trash/${id}`,
+      `${import.meta.env.VITE_BACKEND_URL}/task/trash/${id}`,
         {},
         {
           headers: {

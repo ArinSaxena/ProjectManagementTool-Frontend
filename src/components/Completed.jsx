@@ -16,7 +16,7 @@ const CompletedTasks = () => {
   const fetchCompletedTasks = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/task/manager?status=completed",
+        `${import.meta.env.VITE_BACKEND_URL}/task/manager?status=completed`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -33,7 +33,7 @@ const CompletedTasks = () => {
   const moveToTrash = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/task/trash/${id}`,
+        `${import.meta.env.VITE_BACKEND_URL}/task/trash/${id}`,
         {},
         {
           headers: {

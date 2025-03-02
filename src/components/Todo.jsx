@@ -15,7 +15,7 @@ const Todo = () => {
   const fetchTodo = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/task/manager?status=todo`,
+       `${import.meta.env.VITE_BACKEND_URL}/task/manager?status=todo`,
         {
           headers: {
             Authorization: ` Bearer ${token}`,
@@ -33,7 +33,7 @@ const Todo = () => {
   const moveToTrash = async (id) => {
     try {
       axios.put(
-        `http://localhost:5000/api/task/trash/${id}`,
+       `${import.meta.env.VITE_BACKEND_URL}/task/trash/${id}`,
         {},
         {
           headers: {

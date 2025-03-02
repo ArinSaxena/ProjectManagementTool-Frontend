@@ -6,7 +6,7 @@ import {
   List,
   Trash2,
   Users,
-  UsersRound
+  UsersRound,
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
@@ -33,24 +33,26 @@ const Sidebar = ({ role }) => {
 
   return (
     <div>
-      <div className="w-64 h-screen bg-gray-100 p-5 shadow-lg sticky">
-        <h2 className="text-xl font-bold mb-6">
-          {role?.charAt(0).toUpperCase() + role?.slice(1)} Dashboard
-        </h2>
-        <ul>
-          {menuItems[role]?.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center p-2 hover:bg-blue-500 rounded-md cursor-pointer mb-2"
-            >
-              <Link to={item.path} className="flex items-center w-full">
-                <item.icon className="w-5 h-5 mr-2" /> {item.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-10"></div>
-      </div>
+      {role !== "user" && (
+        <div className="w-64 h-screen bg-gray-100 p-5 shadow-lg sticky">
+          <h2 className="text-xl font-bold mb-6">
+            {role?.charAt(0).toUpperCase() + role?.slice(1)} Dashboard
+          </h2>
+          <ul>
+            {menuItems[role]?.map((item, index) => (
+              <li
+                key={index}
+                className="flex items-center p-2 hover:bg-blue-500 rounded-md cursor-pointer mb-2"
+              >
+                <Link to={item.path} className="flex items-center w-full">
+                  <item.icon className="w-5 h-5 mr-2" /> {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-10"></div>
+        </div>
+      )}
     </div>
   );
 };

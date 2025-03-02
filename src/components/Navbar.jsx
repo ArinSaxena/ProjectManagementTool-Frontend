@@ -16,7 +16,7 @@
 //   const handleLogout = async () => {
 //     const token = localStorage.getItem("token");
 //     try {
-//       const res = await axios.delete("http://localhost:5000/api/auth/logout", {
+//       const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, {
 //         headers: { Authorization: `Bearer ${token}` },
 //       });
 //       dispatch(removeCurrentUser());
@@ -175,13 +175,12 @@ const Navbar = () => {
   const handleLogout = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.delete("http://localhost:5000/api/auth/logout", {
+      const res = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       dispatch(removeCurrentUser());
       localStorage.removeItem("token");
       localStorage.removeItem("refresh_token");
-      console.log(res.data);
     } catch (err) {
       console.log(err);
     }

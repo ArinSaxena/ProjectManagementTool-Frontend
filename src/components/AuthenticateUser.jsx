@@ -4,7 +4,6 @@ import { Navigate } from "react-router-dom";
 
 export const AuthenticationWrapper = ({ children, protect, role }) => {
   const user = useSelector((state) => state.auth.userData);
-  console.log(user?.role);
 
   // ✅ If authentication is required but user is not logged in
   if (protect && !user) {

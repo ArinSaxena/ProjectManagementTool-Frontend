@@ -56,9 +56,12 @@ function App() {
     setIsLoading(true);
     const fetchProfile = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/user/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/user/profile`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
         dispatch(setCurrentUser(res.data));
         // console.log(res.data.role);
@@ -164,7 +167,6 @@ function App() {
               path="in-progress"
               element={
                 <AuthenticateManager>
-                  {" "}
                   <InProgress />
                 </AuthenticateManager>
               }

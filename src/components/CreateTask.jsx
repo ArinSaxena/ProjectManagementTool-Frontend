@@ -21,7 +21,7 @@ const CreateTask = ({ isOpen, onClose }) => {
       const token = localStorage.getItem("token");
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/user/all-users",
+          `${import.meta.env.VITE_BACKEND_URL}/user/all-users`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -29,7 +29,6 @@ const CreateTask = ({ isOpen, onClose }) => {
           }
         );
         setUsers(res.data);
-        console.log(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -42,7 +41,7 @@ const CreateTask = ({ isOpen, onClose }) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/task/task",
+        `${import.meta.env.VITE_BACKEND_URL}/task/task`,
         formData ,
         {
           headers: {
@@ -50,7 +49,6 @@ const CreateTask = ({ isOpen, onClose }) => {
           },
         }
       );
-      console.log(res.data);
     } catch (err) {
       console.log(err);
     }

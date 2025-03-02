@@ -4,16 +4,18 @@ import Navbar from "./Navbar";
 
 const AllTasks = () => {
   const token = localStorage.getItem("token");
-  console.log(token);
   const [tasks, setTasks] = useState([]);
   const [view, setView] = useState("list"); // "list" or "board"
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/task/all-tasks", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setTasks(res.data)
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/task/all-tasks`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setTasks(res.data);
     } catch (err) {
       console.error("Error fetching tasks:", err);
     }
@@ -25,7 +27,7 @@ const AllTasks = () => {
   const moveToTrash = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/task/trash/${id}`, 
+        `${import.meta.env.VITE_BACKEND_URL}/task/trash/${id}`,
         {},
         {
           headers: {
